@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home | BookMuse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  
+  <main>
+    <!-- views/pages/home.ejs -->
+<section class="hero-fullscreen">
+  <div class="hero-inner">
+    <div class="hero-image">
+      <img src="/image/1.png" alt="Reading Book" />
+    </div>
+    <div class="hero-content">
+      <form action="/books/search" method="GET" class="search-container">
+        <input type="text" name="q" placeholder="Search your book..." class="search-input" />
+        <button type="submit" class="search-btn">🔍</button>
+      </form>
+      <div class="tagline">
+        <h1>BookMuse — Your safe self in a loud world.</h1>
+        <p>Not just books— but memory, reflection, and little pieces of you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 🌿 Book Section -->
+<section id="books">
+  <%- include("../partials/bookSection", { books }) %>
+</section>
+
+<!-- ✨ Quote Section -->
+<section id="quotes">
+  <%- include("../partials/quoteSection", { quotes }) %>
+</section>
+
+  <!-- 📬 Footer -->
+  <footer class="footer">
+    <p>Made with ☕ and 📚 — BookMuse</p>
+  </footer>
+
+
+  </main>
+</body>
+</html>

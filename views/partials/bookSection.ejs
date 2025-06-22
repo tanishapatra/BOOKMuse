@@ -1,0 +1,13 @@
+<section class="book-section">
+  <h2>All Books</h2>
+  <div class="book-grid">
+    <% books.forEach(book => { %>
+      <div class="book-card">
+        <img src="<%= book.cover_url %>" alt="Cover" />
+        <h3><%= book.title %></h3>
+        <p><%= book.author %></p>
+        <!-- Other book info -->
+      </div>
+    <% }) %>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quote Page</title>
+</head>
+<body>
+  <form action="/quotes/edit" method="POST">
+    <span onclick="toggleEdit()">✏️</span>
+
+    <blockquote>
+      <textarea id="quote" name="content" style="display:none;"><%= quote.content %></textarea>
+      <p id="quoteDisplay"><%= quote.content %></p>
+    </blockquote>
+
+    <button type="submit" id="saveBtn" style="display:none;">Save</button>
+  </form>
+
+  <script>
+    function toggleEdit() {
+      document.getElementById("quote").style.display = "block";
+      document.getElementById("quoteDisplay").style.display = "none";
+      document.getElementById("saveBtn").style.display = "inline-block";
+    }
+  </script>
+</body>
+</html>

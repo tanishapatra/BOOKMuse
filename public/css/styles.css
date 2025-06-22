@@ -1,0 +1,607 @@
+/* ──────────── 🌼 GENERAL RESET ──────────── */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #e9dfd4;
+  color: #2c2c2c;
+  margin: 0;
+  padding: 0;
+}
+
+/* ──────────── 📚 NAVBAR (Updated) ──────────── */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fffafa;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e6e6e6;
+  font-family: 'Playfair Display', serif;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-title {
+  font-size: 1.8rem;
+  color: #2c2c2c;
+  margin: 0;
+}
+
+/* Hamburger hidden on desktop */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Navbar Links */
+.navbar-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #2c2c2c;
+  font-size: 1.2rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  background-color: #e9dfd4;
+  font-weight: bold;
+}
+
+/* 📱 Responsive Navbar */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+
+  .navbar-links.show {
+    display: flex;
+  }
+
+  .navbar-links a {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding: 0.75rem 1rem;
+  }
+}
+.menu-overlay {
+  display: none;
+}
+
+
+/* 🎬 Mobile-Only Overlay Styles */
+@media (max-width: 768px) {
+  .menu-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .menu-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+  }
+  .menu-overlay .close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  .menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+  .menu-items a {
+    width: 60px; height: 60px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .menu-items a:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.2);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .menu-overlay.active ~ .navbar .hamburger {
+    display: none;
+  }
+}
+
+
+/* ──────────── 📖 BOOKS SECTION ──────────── */
+.books-header {
+  padding: 2rem 2rem 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #2c2c2c;
+}
+
+/* Book Controls Top Row */
+.books-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-buttons button {
+  background-color: #fdfaf6;
+  border: 1px solid #c1a57b;
+  color: #6c584c;
+  font-family: 'Inter', sans-serif;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-buttons button:hover {
+  background-color: #c1a57b;
+  color: white;
+}
+
+.add-book-button .add-book-link {
+  background-color: #c1a57b;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.add-book-button .add-book-link:hover {
+  background-color: #a3b18a;
+}
+
+/* Responsive Controls */
+@media (max-width: 768px) {
+  .books-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-book-button {
+    align-self: flex-end;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* Book List Grid */
+.book-list {
+  list-style: none;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Book Card */
+.book-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cover Image */
+.book-cover {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* Title + Author */
+.book-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.book-card .author {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+/* Rating (★ Stars) */
+.star-rating {
+  margin: 0.5rem 0;
+}
+
+.star {
+  color: #ccc;
+  font-size: 1.2rem;
+  margin-right: 2px;
+}
+
+.star.filled {
+  color: #c1a57b;
+}
+
+/* Status Badge */
+.status-tag {
+  display: inline-block;
+  background-color: #9ab46c;
+  color: rgb(255, 255, 255);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 12px;
+  margin-top: 0.3rem;
+}
+
+/* Tags (Optional Genre/Channel) */
+.book-tags {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.tag {
+  background-color: #6c584c;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+}
+
+/* Read Date */
+.read-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.3rem;
+}
+
+/* Notes Link */
+.notes-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #6c584c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.notes-link:hover {
+  color: #a3b18a;
+}
+
+/* Favorite + 3-dot Top Menu */
+.book-top-menu {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* Three Dot Dropdown */
+.three-dot-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 5;
+  min-width: 120px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  display: block;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background-color: #f4f1ec;
+}
+
+/* No Book Message */
+.no-books {
+  padding: 2rem;
+  font-style: italic;
+}
+
+
+/* 💫 Fullscreen Hero Section Upgrade */
+.hero-fullscreen {
+  min-height: 100vh;
+  background-color: #e9dfd4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  box-sizing: border-box;
+}
+
+.hero-inner {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  padding: 1rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 12px 0 0 12px;
+  border: 1px solid #ccc;
+  flex-grow: 1;
+}
+
+.search-btn {
+  padding: 1rem 1.2rem;
+  background-color: #c1a57b;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  border-radius: 0 12px 12px 0;
+  cursor: pointer;
+}
+
+.tagline h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  margin-bottom: 0.8rem;
+  color: #2c2c2c;
+}
+
+.tagline p {
+  font-size: 1.1rem;
+  color: #4a4a4a;
+}
+
+/* 📱 Hero Section Responsive */
+@media (max-width: 768px) {
+  .hero-inner {
+    flex-direction: column-reverse;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .search-container {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    gap: 0;
+  }
+
+  .search-input {
+    width: 70%;
+    border-radius: 12px 0 0 12px;
+    margin: 0;
+  }
+
+  .search-btn {
+    width: 30%;
+    border-radius: 0 12px 12px 0;
+    margin: 0;
+  }
+
+  .hero-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.hero-image img {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+}
+
+
+  /* .hero-image img {
+    width: 100%;
+    max-width: 320px;
+    margin-top: 1rem;
+  } */
+
+  .tagline h1 {
+    font-size: 1.8rem;
+  }
+
+  .tagline p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 885px) and (min-width: 769px) {
+  .hero-inner {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-image {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .hero-image img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .search-container {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    gap: 0;
+  }
+
+  .search-input {
+    width: 70%;
+    border-radius: 12px 0 0 12px;
+    margin: 0;
+  }
+
+  .search-btn {
+    width: 30%;
+    border-radius: 0 12px 12px 0;
+    margin: 0;
+  }
+
+  .tagline h1 {
+    font-size: 2rem;
+  }
+
+  .tagline p {
+    font-size: 1rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  gap: 0.5rem;
+}
+
+.pagination a {
+  padding: 0.5rem 1rem;
+  border: 1px solid #c1a57b;
+  border-radius: 8px;
+  color: #6c584c;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #c1a57b;
+  color: white;
+}
+
+.pagination a.active {
+  background-color: #c1a57b;
+  color: white;
+  pointer-events: none;
+}

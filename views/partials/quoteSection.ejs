@@ -1,0 +1,9 @@
+<section class="quote-section">
+  <h2>Quotes</h2>
+  <div class="quote-list">
+    <% quotes.forEach(quote => { %>
+      <blockquote><%= quote.content %></blockquote>
+      <p>— <%= quote.author %></p>
+    <% }) %>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Book</title>
+</head>
+<body>
+  <h1>Edit Book</h1>
+
+  <form action="/books/edit/<%= book.id %>" method="POST">
+    <label>Title:</label><br />
+    <input type="text" name="title" value="<%= book.title %>" required /><br />
+
+    <label>Author:</label><br />
+    <input type="text" name="author" value="<%= book.author %>" required /><br />
+
+    <label>Cover URL:</label><br />
+    <input type="text" name="cover_url" value="<%= book.cover_url %>" /><br />
+
+    <label>Rating:</label><br />
+    <input type="number" name="rating" min="1" max="5" value="<%= book.rating %>" /><br />
+
+    <label>Status:</label><br />
+    <select name="status">
+      <option value="To Read" <%= book.status === "To Read" ? "selected" : "" %>>To Read</option>
+      <option value="Reading" <%= book.status === "Reading" ? "selected" : "" %>>Reading</option>
+      <option value="Completed" <%= book.status === "Completed" ? "selected" : "" %>>Completed</option>
+    </select><br />
+
+    <label>Notes:</label><br />
+    <textarea name="notes"><%= book.notes %></textarea><br />
+
+    <label>Read Date:</label><br />
+    <input type="date" name="read_date" value="<%= book.read_date ? book.read_date.toISOString().split('T')[0] : '' %>" /><br /><br />
+
+    <button type="submit">Save Changes</button>
+  </form>
+</body>
+</html>
