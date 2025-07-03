@@ -9,7 +9,7 @@
   <div class="form-container">
     <h2 class="form-title">Add a New Book</h2>
 
-    <form action="/books/add" method="POST" class="book-form">
+    <form action="/books/add" method="POST" class="book-form" enctype="multipart/form-data">
       <label for="title">Title:</label>
       <input type="text" id="title" name="title" required />
 
@@ -34,6 +34,9 @@
 
       <label for="tags">Tags (comma-separated):</label>
       <input type="text" id="tags" name="tags" placeholder="e.g., Fiction, Romance, Philosophy" />
+
+      <label for="cover">Upload Cover Image:</label>
+      <input type="file" id="cover" name="cover" accept="image/*" />
 
       <button type="submit" class="submit-btn"> Add Book</button>
     </form>

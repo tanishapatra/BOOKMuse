@@ -1,13 +1,13 @@
 import pg from "pg";
 
-const db = new pg.Client({
-  user: "postgres",          
+const { Pool } = pg;
+
+const db = new Pool({
+  user: "postgres",
   host: "localhost",
-  database: "BOOKMuse",      
+  database: "BOOKMuse",
   password: "postsetup123",
   port: 5432,
 });
-
-db.connect();
 
 export default db;

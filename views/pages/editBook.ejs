@@ -3,7 +3,7 @@
   <div class="form-container">
     <h2 class="form-title">Edit Book</h2>
 
-    <form action="/books/edit/<%= book.id %>" method="POST" class="book-form">
+    <form action="/books/edit/<%= book.id %>" method="POST" enctype="multipart/form-data" class="book-form">
       <label for="title">Title</label>
       <input type="text" id="title" name="title" value="<%= book.title %>" required />
 
@@ -37,6 +37,9 @@
         value="<%= book.tags ? book.tags.join(', ') : '' %>"
         placeholder="e.g., Thriller, Memoir, Spiritual"
       />
+      
+      <label for="cover">Upload New Cover (optional)</label>
+      <input type="file" id="cover" name="cover" accept="image/*" />
 
       <button type="submit" class="submit-btn"> Save Changes</button>
     </form>

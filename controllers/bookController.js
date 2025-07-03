@@ -49,12 +49,10 @@ export function showAddBookForm(req, res) {
 
 // ➕ POST Add Book
 export async function addBook(req, res) {
-  const { title, author, rating, status, notes, read_date, tags } = req.body;
-
-  const tagArray = tags ? tags.split(",").map(tag => tag.trim()) : [];
-  let cover_url = "";
-
   try {
+    const { title, author, rating, status, read_date, notes, tags } = req.body;
+    let cover_url = "";
+
     const queryTitle = encodeURIComponent(title);
     const queryAuthor = encodeURIComponent(author);
     const response = await fetch(`https://openlibrary.org/search.json?title=${queryTitle}&author=${queryAuthor}`);
@@ -70,19 +68,29 @@ export async function addBook(req, res) {
 
     if (match && match.cover_i) {
       cover_url = `https://covers.openlibrary.org/b/id/${match.cover_i}-L.jpg`;
+    } else if (req.file) {
+      cover_url = "/uploads/" + req.file.filename;
     }
 
-  await db.query(
-  `INSERT INTO books 
-  (title, author, cover_url, rating, status, notes, read_date, tags) 
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-  [title, author, cover_url, rating, status, notes, read_date, tagArray]
-  );
+    await db.query(
+      `INSERT INTO books (title, author, rating, status, read_date, notes, tags, cover_url)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        title,
+        author,
+        rating || null,
+        status,
+        read_date || null,
+        notes,
+        tags ? tags.split(",").map(tag => tag.trim()) : [],
+        cover_url
+      ]
+    );
 
     res.redirect("/books");
   } catch (err) {
-    console.error("🔥 Error adding book:", err);
-    res.status(500).send("Something went wrong while adding the book");
+    console.error("Error adding book:", err);
+    res.status(500).send("Something went wrong!");
   }
 }
 
@@ -109,17 +117,21 @@ export async function getBookById(req, res) {
 // 🔁 POST Update Book
 export async function updateBook(req, res) {
   const bookId = req.params.id;
-  const { title, author, cover_url, rating, status, notes, read_date, tags } = req.body;
-
+  let { title, author, cover_url, rating, status, notes, read_date, tags } = req.body;
   const tagArray = tags ? tags.split(",").map(tag => tag.trim()) : [];
 
   try {
-  await db.query(
-  `UPDATE books 
-  SET title = $1, author = $2, cover_url = $3, rating = $4, status = $5, notes = $6, read_date = $7, tags = $8
-  WHERE id = $9`,
-  [title, author, cover_url, rating, status, notes, read_date, tagArray, bookId]
-);
+    // 📸 Fallback logic — use uploaded cover if given
+    if (req.file) {
+      cover_url = "/uploads/" + req.file.filename;
+    }
+
+    await db.query(
+      `UPDATE books 
+      SET title = $1, author = $2, cover_url = $3, rating = $4, status = $5, notes = $6, read_date = $7, tags = $8
+      WHERE id = $9`,
+      [title, author, cover_url, rating, status, notes, read_date || null, tagArray, bookId]
+    );
 
     res.redirect("/books");
   } catch (err) {
@@ -127,6 +139,7 @@ export async function updateBook(req, res) {
     res.status(500).send("Update failed");
   }
 }
+
 
 // ❌ DELETE Book
 export async function deleteBook(req, res) {
