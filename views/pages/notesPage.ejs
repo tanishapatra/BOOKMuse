@@ -1,0 +1,12 @@
+<main class="notes-main">
+  <div class="notes-container">
+    <h1 class="notes-title"> Notes for "<%= book.title %>"</h1>
+
+    <form action="/books/<%= book.id %>/notes" method="POST" class="notes-form">
+  <input type="hidden" name="redirectTo" value="<%= redirectTo %>" />
+  <textarea name="notes" class="notes-textarea" rows="10"><%= book.notes || "" %></textarea>
+  <button type="submit" class="notes-save-btn">💾 Save Notes</button>
+</form>
+  </div>
+</main>
+

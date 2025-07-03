@@ -2,18 +2,20 @@
   <!-- Top: Favorite + 3-dot Menu -->
   <div class="book-top-menu">
     <form action="/books/<%= book.id %>/favorite" method="POST" class="fav-form">
-      <button type="submit" class="fav-btn">
-        <%= book.is_favorite ? "❤️" : "🤍" %>
-      </button>
-    </form>
+  <input type="hidden" name="redirectTo" value="<%= redirectTo || '/books' %>">
+  <button type="submit" class="fav-btn">
+    <%= book.is_favorite ? "❤️" : "🤍" %>
+  </button>
+</form>
+
 
     <!-- Three-dot dropdown -->
     <div class="dropdown">
       <button class="three-dot-btn">⋮</button>
       <div class="dropdown-menu">
-        <a href="/books/edit/<%= book.id %>">✏️ Edit</a>
+        <a href="/books/edit/<%= book.id %>"> Edit</a>
         <form action="/books/delete/<%= book.id %>" method="POST">
-          <button type="submit" class="delete-btn">🗑 Delete</button>
+          <button type="submit" class="delete-btn"> Delete</button>
         </form>
       </div>
     </div>
@@ -36,22 +38,25 @@
   </div>
 
   <!-- Status Tag -->
-  <div class="status-tag"><%= book.status %></div>
+  <div class="progress-bar">
+  <div class="progress-fill <%= book.status.toLowerCase().replace(' ', '-') %>">
+    <span><%= book.status %></span>
+  </div>
+</div>
 
   <!-- Optional Tag -->
   <% if (book.tags && book.tags.length > 0) { %>
-    <div class="book-tags">
-      <% book.tags.forEach(tag => { %>
-        <span class="tag"><%= tag %></span>
-      <% }) %>
-    </div>
+  <div class="book-tags">
+    <% book.tags.forEach(tag => { %>
+      <span class="tag"><%= tag %></span>
+    <% }) %>
+  </div>
   <% } %>
-
   <!-- Read Date -->
   <% if (book.read_date) { %>
     <p class="read-date">Read on: <%= new Date(book.read_date).toLocaleDateString() %></p>
   <% } %>
 
   <!-- Notes Link -->
-  <a href="/books/<%= book.id %>/notes" class="notes-link">📝 Notes</a>
+  <a href="/books/<%= book.id %>/notes?redirectTo=<%= redirectTo || '/books' %>" class="notes-link"> Notes</a>
 </li>

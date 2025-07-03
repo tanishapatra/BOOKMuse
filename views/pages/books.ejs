@@ -10,17 +10,25 @@
   <main class="books-page">
     <!-- Placeholder for top filter + add book -->
     <section class="books-controls">
-      <div class="filter-buttons">
-        <form action="/books" method="GET"><button type="submit">All</button></form>
-        <form action="/books?status=To Read" method="GET"><button type="submit">To Read</button></form>
-        <form action="/books?status=Reading" method="GET"><button type="submit">Reading</button></form>
-        <form action="/books?status=Completed" method="GET"><button type="submit">Completed</button></form>
-      </div>
+  <div class="filter-buttons">
+    <form action="/books" method="GET">
+      <button type="submit">All</button>
+    </form>
+    <form action="/books" method="GET">
+      <input type="hidden" name="status" value="To Read" />
+      <button type="submit">To Read</button>
+    </form>
+    <form action="/books" method="GET">
+      <input type="hidden" name="status" value="Reading" />
+      <button type="submit">Reading</button>
+    </form>
+    <form action="/books" method="GET">
+      <input type="hidden" name="status" value="Completed" />
+      <button type="submit">Completed</button>
+    </form>
+  </div>
+</section>
 
-      <div class="add-book-button">
-        <a href="/books/add" class="add-book-link">+ Add Book</a>
-      </div>
-    </section>
 
     <% if (books.length === 0) { %>
   <p class="no-books">No books found.</p>
@@ -40,7 +48,7 @@
         <div class="dropdown">
           <button class="three-dot-btn">⋮</button>
           <div class="dropdown-menu">
-            <a href="/books/edit/<%= book.id %>">✏️ Edit</a>
+            <a href="/books/edit/<%= book.id %>"> Edit</a>
             <form action="/books/delete/<%= book.id %>" method="POST">
               <button type="submit" class="delete-btn">🗑 Delete</button>
             </form>
@@ -65,7 +73,14 @@
       </div>
 
       <!-- Status Tag -->
-      <div class="status-tag"><%= book.status %></div>
+      <% let status = book.status.trim().toLowerCase().replace(/\s+/g, '-'); %>
+
+<div class="progress-bar">
+  <div class="progress-fill <%= status %>">
+    <span class="status-text"><%= book.status.trim() %></span>
+  </div>
+</div>
+
 
       <!-- Optional Tag (future: genre/channel/etc) -->
       <% if (book.tags && book.tags.length > 0) { %>
@@ -82,19 +97,10 @@
       <% } %>
 
       <!-- Notes Link -->
-      <a href="/books/<%= book.id %>/notes" class="notes-link">📝 Notes</a>
+      <a href="/books/<%= book.id %>/notes?redirectTo=/books" class="notes-link"> Notes</a>
     </li>
   <% }); %>
 </ul>
-
-<!-- 🧭 Pagination -->
-<div class="pagination">
-  <% for (let i = 1; i <= totalPages; i++) { %>
-    <a href="/books?page=<%= i %><%= (typeof status !== 'undefined') ? `&status=${status}` : '' %>" class="<%= i === currentPage ? 'active' : '' %>">
-      <%= i %>
-    </a>
-  <% } %>
-</div>
 
 <% } %>
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Search Results | BookMuse</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <main>
+    <section class="search-results">
+      <h2 class="search-heading"> <%= query %></h2>
+
+      <% if (books.length > 0) { %>
+        <ul class="book-list">
+          <% books.forEach(book => { %>
+            <%- include("../partials/bookCard", { book, redirectTo: `/books/search?q=${query}` }) %>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="no-books">No books found for "<%= query %>" 😕</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

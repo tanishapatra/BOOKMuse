@@ -27,23 +27,40 @@ app.use("/books", bookRoutes);
 app.use("/quotes", quoteRoutes);
 
 app.get("/", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 8;
+  const offset = (page - 1) * limit;
+  const isEditing = req.query.editQuote === "true";
+
   try {
-    const booksResult = await db.query("SELECT * FROM books ORDER BY id DESC");
+    const booksResult = await db.query(
+      "SELECT * FROM books ORDER BY id DESC LIMIT $1 OFFSET $2",
+      [limit, offset]
+    );
+    const countResult = await db.query("SELECT COUNT(*) FROM books");
     const quotesResult = await db.query("SELECT * FROM quotes ORDER BY id DESC");
 
     const books = booksResult.rows;
+    const totalBooks = parseInt(countResult.rows[0].count);
+    const totalPages = Math.ceil(totalBooks / limit);
     const quotes = quotesResult.rows;
 
     res.render("pages/home", {
-      books,
-      quotes,
-      title: "Home | BookMuse" // 🧠 good that you already had this!
-    });
+  books,
+  quotes,
+  currentPage: page,
+  totalPages,
+  redirectTo: "/",
+  title: "Home | BookMuse",
+  editing: isEditing
+});
+
   } catch (err) {
     console.error("Error loading homepage:", err);
     res.status(500).send("Failed to load homepage.");
   }
 });
+
 
 
 

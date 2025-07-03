@@ -15,7 +15,8 @@
       <img src="/image/1.png" alt="Reading Book" />
     </div>
     <div class="hero-content">
-      <form action="/books/search" method="GET" class="search-container">
+      <form action="/books/search#books" method="GET" class="search-container">
+
         <input type="text" name="q" placeholder="Search your book..." class="search-input" />
         <button type="submit" class="search-btn">🔍</button>
       </form>
@@ -28,7 +29,8 @@
 </section>
 <!-- 🌿 Book Section -->
 <section id="books">
-  <%- include("../partials/bookSection", { books }) %>
+  <%- include("../partials/bookSection", { books, redirectTo: "/" }) %>
+
 </section>
 
 <!-- ✨ Quote Section -->
@@ -38,8 +40,11 @@
 
   <!-- 📬 Footer -->
   <footer class="footer">
-    <p>Made with ☕ and 📚 — BookMuse</p>
-  </footer>
+  <div class="footer-inner">
+    <p class="footer-text">Made with Coffee and books — <span class="brand">BookMuse</span></p>
+    <p class="footer-credit">© <%= new Date().getFullYear() %> BookMuse. All rights reserved.</p>
+  </div>
+</footer>
 
 
   </main>

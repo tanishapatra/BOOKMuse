@@ -1,13 +1,22 @@
-<section class="book-section">
-  <h2>All Books</h2>
-  <div class="book-grid">
-    <% books.forEach(book => { %>
-      <div class="book-card">
-        <img src="<%= book.cover_url %>" alt="Cover" />
-        <h3><%= book.title %></h3>
-        <p><%= book.author %></p>
-        <!-- Other book info -->
-      </div>
-    <% }) %>
-  </div>
+<section class="book-section"> 
+  <h2 class="books-header">Your Books</h2>
+
+  <% if (books.length > 0) { %>
+    <ul class="book-list">
+      <% books.forEach(book => { %>
+        <%- include("bookCard", { book, redirectTo }) %>
+      <% }) %>
+    </ul>
+
+    <!-- 🧭 Pagination (ONLY if totalPages and currentPage exist) -->
+    <div class="pagination">
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="/?page=<%= i %>#books" class="<%= i === currentPage ? 'active' : '' %>">
+          <%= i %>
+        </a>
+      <% } %>
+    </div>
+  <% } else { %>
+    <p class="no-books">No books yet! Start your library today 📚✨</p>
+  <% } %>
 </section>

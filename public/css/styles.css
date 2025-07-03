@@ -1,4 +1,5 @@
 /* ──────────── 🌼 GENERAL RESET ──────────── */
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: #e9dfd4;
@@ -16,8 +17,9 @@ body {
   padding: 1rem 2rem;
   border-bottom: 1px solid #e6e6e6;
   font-family: 'Playfair Display', serif;
-  position: relative;
-  z-index: 10;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
 .navbar-title {
@@ -187,7 +189,7 @@ body {
 }
 
 .add-book-button .add-book-link {
-  background-color: #c1a57b;
+  background-color: #997e57;
   color: white;
   padding: 0.6rem 1.2rem;
   border-radius: 12px;
@@ -323,28 +325,38 @@ body {
 /* Favorite + 3-dot Top Menu */
 .book-top-menu {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.8rem;
+  right: 0.8rem;
   display: flex;
-  gap: 0.5rem;
+  flex-direction: row;
+  gap: 0.4rem;
   align-items: center;
+  z-index: 2;
+}
+
+.fav-btn, .three-dot-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.3rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fav-btn {
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
+  color: #cc2b5e; /* deep pinkish-red */
 }
 
-/* Three Dot Dropdown */
-.three-dot-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #555;
+.fav-btn:hover,
+.three-dot-btn:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  transform: scale(1.1);
 }
+
 
 .dropdown {
   position: relative;
@@ -508,13 +520,6 @@ body {
   height: auto;
 }
 
-
-  /* .hero-image img {
-    width: 100%;
-    max-width: 320px;
-    margin-top: 1rem;
-  } */
-
   .tagline h1 {
     font-size: 1.8rem;
   }
@@ -604,4 +609,591 @@ body {
   background-color: #c1a57b;
   color: white;
   pointer-events: none;
+}
+
+/* ───── 📋 Form Pages ───── */
+.form-page {
+  padding: 2rem;
+  background-color: #fdfaf6;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  width: 100%;
+}
+
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #6c584c;
+}
+
+.book-form label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  margin-top: 1rem;
+  display: block;
+  color: #333;
+}
+
+.book-form input,
+.book-form select,
+.book-form textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  background-color: #fefefe;
+}
+
+.book-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #c1a57b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #a3b18a;
+}
+
+.form-page {
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  max-width: 600px;
+  width: 100%;
+}
+
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2c2c2c;
+}
+
+.book-form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+}
+
+.book-form input,
+.book-form select,
+.book-form textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  background-color: #fdfaf6;
+}
+
+.submit-btn {
+  margin-top: 2rem;
+  width: 100%;
+  background-color: #c1a57b;
+  color: white;
+  font-weight: bold;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #a3b18a;
+}
+
+
+
+.quote-page {
+  padding: 4rem 2rem;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url('/image/4.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Optional: Add overlay so text/card pops */
+  position: relative;
+}
+
+.quote-container {
+  background: #f9f6f2;
+  border-left: 4px solid #c9a27e;
+  padding: 2rem;
+  max-width: 600px;
+  font-family: 'Playfair Display', serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+blockquote {
+  font-size: 1.5rem;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+#quoteEdit {
+  width: 100%;
+  height: 150px;
+  font-size: 1.2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  font-family: 'Inter', sans-serif;
+  border-radius: 6px;
+}
+
+#saveBtn {
+  margin-top: 1rem;
+  background-color: #c9a27e;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.quote-edit-box {
+  position: relative;
+}
+
+.edit-icon {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transform: translateY(-2px); /* 💥 This shifts it up! Adjust as needed */
+}
+
+.edit-icon:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+.quote-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.home-quotes {
+  padding: 4rem 2rem;
+  background-image: url('/image/4.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  position: relative;
+}
+
+.home-quotes::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  
+  z-index: 0;
+}
+
+.home-quotes .quote-container {
+  z-index: 1;
+  position: relative;
+  background: #f9f6f2;
+  border-left: 4px solid #c9a27e;
+  padding: 2rem;
+  max-width: 600px;
+  font-family: 'Playfair Display', serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.quote-author {
+  font-style: italic;
+  margin-top: 1rem;
+  color: #555;
+}
+
+.footer {
+  background-color: #f9f6f2;
+  border-top: 1px solid #e0dcd3;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #4d453f;
+  margin-top: 4rem;
+}
+
+.footer-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-text {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-credit {
+  font-size: 0.9rem;
+  color: #7a7268;
+}
+
+.brand {
+  color: #c9a27e;
+  font-weight: bold;
+}
+
+.search-results-page {
+  padding: 4rem 2rem;
+  background-color: #fffdf6;
+  min-height: 100vh;
+}
+
+.search-results-page h2 {
+  font-size: 2.2rem;
+  font-family: 'Playfair Display', serif;
+  color: #3a3a3a;
+  margin-bottom: 1rem;
+}
+
+.search-results-page .no-results {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #777;
+  margin-top: 2rem;
+}
+
+.search-results-page .book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.quote-textarea {
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.5rem;
+}
+
+.save-quote-btn,
+.edit-quote-btn {
+  background-color: #d4af37;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.edit-quote-form {
+  margin-top: 0.5rem;
+}
+
+
+.quote-textarea {
+  width: 100%;
+  max-width: 300px; /* smaller default width */
+  font-size: 1rem;
+  padding: 0.8rem;
+  font-family: 'Playfair Display', serif;
+  background-color: #fffef5;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  resize: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Only expands in edit mode */
+.quote-textarea.expanded {
+  max-width: 450px;
+  height: 150px;
+  font-size: 1.1rem;
+  resize: vertical;
+}
+
+
+/*  Notes Page Styling */
+
+.notes-main {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background-color: #fefdf8;
+  min-height: 80vh;
+}
+
+.notes-container {
+  width: 100%;
+  max-width: 700px;
+  background-color: #fffef5;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.notes-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #4a3f2b;
+  text-align: center;
+}
+
+.notes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 1.2rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+
+.notes-save-btn {
+  align-self: flex-end;
+  padding: 0.6rem 1.4rem;
+  background-color: #c0a46b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.notes-save-btn:hover {
+  background-color: #a88d55;
+}
+
+.notes-link {
+  display: inline-flex; 
+  align-items: center;
+  background-color: #f4e6d8;
+  color: #5b3924;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  border: 1px solid #e0cbb1;
+  transition: all 0.2s ease-in-out;
+  width: fit-content; 
+  max-width: 100%;
+  white-space: nowrap;
+}
+.notes-link:hover {
+  background-color: #e9d6c1;
+  color: #3b2314;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.notes-link {
+  background-color: #dcefd8;
+  color: #3f4d3c;
+  border: 1px solid #b9d7b2;
+}
+.notes-link:hover {
+  background-color: #cbe6c3;
+  color: #2f3c2d;
+}
+
+
+.tag {
+  background-color: #f4e8d4;
+  color: #333;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin: 2px;
+  display: inline-block;
+}
+
+.quote-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  box-sizing: border-box; /* VERY important */
+  background-color: #fff;
+  resize: vertical;
+}
+
+.search-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin: 2rem 0 1rem 2rem; /* Top and left space */
+  color: #404040;
+}
+
+/* Outer container */
+.progress-bar {
+  width: 100%;
+  height: auto;
+  min-height: 1.5rem;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  padding: 2px 0;
+}
+
+/* Inner fill - default style */
+.progress-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centers the text */
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;  /* 🛑 prevents that ugly line break */
+}
+
+
+/* Different fill % and color based on status */
+.progress-fill.to-read {
+  width: 0%;
+  background-color: transparent;
+  color: #444;
+}
+
+.progress-fill.reading {
+  width: 50%;
+  background-color: #a2c185;
+  color: white;
+}
+
+.progress-fill.completed {
+  width: 100%;
+  background-color: #a2c185;
+}
+
+.progress-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.progress-fill.to-read {
+  width: 0%;
+  background-color: transparent;
+  color: #444;
+}
+
+.progress-fill.reading {
+  width: 50%;
+  background-color: #a2c185;
+  color: white;
+}
+
+.progress-fill.completed {
+  width: 100%;
+  background-color: #a2c185;
+  color: white;
+}
+
+.progress-fill.to-read {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0 0.5rem;
+  background-color: transparent;
+  color: #444;
+  justify-content: flex-start;
+}
+
+.top-bar {
+  padding: 1.2rem 1rem 0.5rem;
+  margin-bottom: 1rem;
 }

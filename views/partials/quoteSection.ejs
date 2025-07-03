@@ -1,9 +1,19 @@
-<section class="quote-section">
-  <h2>Quotes</h2>
-  <div class="quote-list">
-    <% quotes.forEach(quote => { %>
-      <blockquote><%= quote.content %></blockquote>
-      <p>— <%= quote.author %></p>
-    <% }) %>
+<section class="home-quotes">
+  <div class="quote-container">
+    <% if (editing) { %>
+      <form action="/quotes/edit" method="POST" class="quote-edit-form">
+        <textarea name="content" rows="3" class="quote-textarea <%= editing ? 'expanded' : '' %>"><%= quotes[0].content %></textarea>
+        <button type="submit" class="save-quote-btn"> Save</button>
+      </form>
+    <% } else { %>
+      <blockquote><%= quotes[0].content %></blockquote>
+      <% if (quotes[0].author) { %>
+        <p class="quote-author">— <%= quotes[0].author %></p>
+      <% } %>
+      <form action="/#quotes" method="GET" class="edit-quote-form">
+        <input type="hidden" name="editQuote" value="true" />
+        <button type="submit" class="edit-quote-btn"> Edit</button>
+      </form>
+    <% } %>
   </div>
 </section>

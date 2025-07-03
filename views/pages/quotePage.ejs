@@ -1,27 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Quote Page</title>
-</head>
-<body>
-  <form action="/quotes/edit" method="POST">
-    <span onclick="toggleEdit()">✏️</span>
 
-    <blockquote>
-      <textarea id="quote" name="content" style="display:none;"><%= quote.content %></textarea>
-      <p id="quoteDisplay"><%= quote.content %></p>
-    </blockquote>
+<section class="quote-page">
+  <div class="quote-container">
+    
+    <!-- NEW: Edit icon wrapper -->
+    <div class="quote-header">
+      <button type="button" class="edit-icon" onclick="toggleEdit()">✏️</button>
+    </div>
 
-    <button type="submit" id="saveBtn" style="display:none;">Save</button>
-  </form>
+    <form action="/quotes/edit" method="POST" id="quoteForm">
+      <blockquote id="quoteDisplay"><%= quote.content %></blockquote>
 
-  <script>
-    function toggleEdit() {
-      document.getElementById("quote").style.display = "block";
-      document.getElementById("quoteDisplay").style.display = "none";
-      document.getElementById("saveBtn").style.display = "inline-block";
-    }
-  </script>
-</body>
-</html>
+      <textarea id="quoteEdit" name="content" class="quote-textarea" style="display: none;"><%= quote.content %></textarea>
+
+      <button type="submit" id="saveBtn" style="display: none;"> Save</button>
+    </form>
+  </div>
+</section>
+
+
+
+<script>
+  function toggleEdit() {
+    document.getElementById("quoteDisplay").style.display = "none";
+    document.getElementById("quoteEdit").style.display = "block";
+    document.getElementById("saveBtn").style.display = "inline-block";
+  }
+</script>

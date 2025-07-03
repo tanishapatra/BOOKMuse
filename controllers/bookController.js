@@ -3,66 +3,40 @@ import db from "../db/index.js";
 import fetch from "node-fetch";
 
 // 📚 GET all books
-// export async function getAllBooks(req, res) {
-//   try {
-//     const result = await db.query("SELECT * FROM books ORDER BY id ASC");
-//     const books = result.rows;
-
-//     res.render("pages/books", { books });
-//   } catch (err) {
-//     console.error("Error fetching books:", err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// }
-
 export async function getAllBooks(req, res) {
-  const page = parseInt(req.query.page) || 1;
-  const limit = 8;
-  const offset = (page - 1) * limit;
   const statusFilter = req.query.status;
 
   try {
     let query = "";
-    let countQuery = "";
-    let booksResult, countResult;
+    let booksResult;
 
     if (statusFilter) {
       query = `
         SELECT * FROM books 
         WHERE status = $1 
-        ORDER BY id DESC 
-        LIMIT $2 OFFSET $3
+        ORDER BY id DESC
       `;
-      countQuery = `SELECT COUNT(*) FROM books WHERE status = $1`;
-
-      booksResult = await db.query(query, [statusFilter, limit, offset]);
-      countResult = await db.query(countQuery, [statusFilter]);
+      booksResult = await db.query(query, [statusFilter]);
     } else {
       query = `
         SELECT * FROM books 
-        ORDER BY id DESC 
-        LIMIT $1 OFFSET $2
+        ORDER BY id DESC
       `;
-      countQuery = `SELECT COUNT(*) FROM books`;
-
-      booksResult = await db.query(query, [limit, offset]);
-      countResult = await db.query(countQuery);
+      booksResult = await db.query(query);
     }
 
     const books = booksResult.rows;
-    const totalBooks = parseInt(countResult.rows[0].count);
-    const totalPages = Math.ceil(totalBooks / limit);
 
     res.render("pages/books", {
-  books,
-  currentPage: page,
-  totalPages,
-  title: "All Books | BookMuse" // ← THIS FIXES IT
-});
+      books,
+      title: "All Books | BookMuse",
+      status: statusFilter,
+      redirectTo: "/books"
+    });
 
   } catch (err) {
-    console.error("Pagination broke:", err);
-    res.status(500).send("Something broke 💔");
+    console.error("Error fetching books without pagination:", err);
+    res.status(500).send("Something went wrong 🚨");
   }
 }
 
@@ -75,8 +49,9 @@ export function showAddBookForm(req, res) {
 
 // ➕ POST Add Book
 export async function addBook(req, res) {
-  const { title, author, rating, status, notes, read_date } = req.body;
+  const { title, author, rating, status, notes, read_date, tags } = req.body;
 
+  const tagArray = tags ? tags.split(",").map(tag => tag.trim()) : [];
   let cover_url = "";
 
   try {
@@ -97,12 +72,12 @@ export async function addBook(req, res) {
       cover_url = `https://covers.openlibrary.org/b/id/${match.cover_i}-L.jpg`;
     }
 
-    await db.query(
-      `INSERT INTO books 
-      (title, author, cover_url, rating, status, notes, read_date) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [title, author, cover_url, rating, status, notes, read_date]
-    );
+  await db.query(
+  `INSERT INTO books 
+  (title, author, cover_url, rating, status, notes, read_date, tags) 
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+  [title, author, cover_url, rating, status, notes, read_date, tagArray]
+  );
 
     res.redirect("/books");
   } catch (err) {
@@ -121,7 +96,10 @@ export async function getBookById(req, res) {
     const book = result.rows[0];
 
     if (!book) return res.status(404).send("Book not found");
-    res.render("pages/editBook", { book }); // ✅ updated view path
+    res.render("pages/editBook", {
+      book,
+      title: "Edit Book | BookMuse"
+      }); 
   } catch (err) {
     console.error("Error fetching book:", err);
     res.status(500).send("Something went wrong");
@@ -131,15 +109,18 @@ export async function getBookById(req, res) {
 // 🔁 POST Update Book
 export async function updateBook(req, res) {
   const bookId = req.params.id;
-  const { title, author, cover_url, rating, status, notes, read_date } = req.body;
+  const { title, author, cover_url, rating, status, notes, read_date, tags } = req.body;
+
+  const tagArray = tags ? tags.split(",").map(tag => tag.trim()) : [];
 
   try {
-    await db.query(
-      `UPDATE books 
-      SET title = $1, author = $2, cover_url = $3, rating = $4, status = $5, notes = $6, read_date = $7 
-      WHERE id = $8`,
-      [title, author, cover_url, rating, status, notes, read_date, bookId]
-    );
+  await db.query(
+  `UPDATE books 
+  SET title = $1, author = $2, cover_url = $3, rating = $4, status = $5, notes = $6, read_date = $7, tags = $8
+  WHERE id = $9`,
+  [title, author, cover_url, rating, status, notes, read_date, tagArray, bookId]
+);
+
     res.redirect("/books");
   } catch (err) {
     console.error("Error updating book:", err);
@@ -163,7 +144,8 @@ export async function deleteBook(req, res) {
 // ❤️ Toggle Favorite Status
 export async function toggleFavorite(req, res) {
   const bookId = req.params.id;
-
+  const redirectTo = req.body.redirectTo || "/books";
+  
   try {
     const result = await db.query("SELECT is_favorite FROM books WHERE id = $1", [bookId]);
 
@@ -173,8 +155,8 @@ export async function toggleFavorite(req, res) {
     const newStatus = !currentStatus;
 
     await db.query("UPDATE books SET is_favorite = $1 WHERE id = $2", [newStatus, bookId]);
+    res.redirect(redirectTo);
 
-    res.redirect("/books");
   } catch (err) {
     console.error("Favorite toggle failed:", err);
     res.status(500).send("Something went wrong.");
@@ -189,11 +171,12 @@ export async function getFavoriteBooks(req, res) {
     const books = bookResult.rows;
     const quotes = quoteResult.rows;
 
-    res.render("pages/favoriteBooks", {
-      books,
-      quotes,
-      title: "Favorites | BookMuse"
-    });
+   res.render("pages/favoriteBooks", {
+  books,
+  quotes,
+  redirectTo: "/books/favorites", // 👈 pass this to your bookCard.ejs
+  title: "Favorites | BookMuse"
+});
   } catch (err) {
     console.error("Error loading favorites:", err);
     res.status(500).send("Failed to load favorites.");
@@ -210,10 +193,54 @@ export async function searchBooks(req, res) {
       [`%${query}%`]
     );
     const books = result.rows;
-    res.render("pages/home", { books }); // reuse home.ejs with filtered books
+
+    res.render("pages/searchResults", {
+      books,
+      query,
+      title: `Search: ${query} | BookMuse`
+    });
+
   } catch (err) {
     console.error("Error during search:", err);
     res.status(500).send("Search failed.");
+  }
+}
+
+
+export async function showNotesPage(req, res) {
+  const bookId = req.params.id;
+  const redirectTo = req.query.redirectTo || `/books/${bookId}/notes`; 
+  
+  try {
+    const result = await db.query("SELECT * FROM books WHERE id = $1", [bookId]);
+    const book = result.rows[0];
+
+    if (!book) return res.status(404).send("Book not found");
+
+    res.render("pages/notesPage", {
+      book,
+      redirectTo,
+      title: `${book.title} – Notes | BookMuse`
+    });
+  } catch (err) {
+    console.error("Error loading notes page:", err);
+    res.status(500).send("Failed to load notes.");
+  }
+}
+
+
+export async function saveNotes(req, res) {
+  const bookId = req.params.id;
+  const { notes, redirectTo } = req.body;
+
+
+  try {
+    await db.query("UPDATE books SET notes = $1 WHERE id = $2", [notes, bookId]);
+    res.redirect(redirectTo || `/books/${bookId}/notes`);
+
+  } catch (err) {
+    console.error("Error saving notes:", err);
+    res.status(500).send("Failed to save notes.");
   }
 }
 

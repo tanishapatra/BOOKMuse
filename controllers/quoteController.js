@@ -33,7 +33,7 @@ export async function updateQuote(req, res) {
       await db.query("UPDATE quotes SET content = $1", [content]);
     }
 
-    res.redirect("/quotes");
+    res.redirect("/#quotes");
   } catch (err) {
     console.error("Error updating quote:", err);
     res.status(500).send("Failed to update quote.");
